@@ -1,0 +1,23 @@
+#open chrome and search for keyword
+sh open_chrome_search.sh 
+
+sleep 5
+
+#take screenshot
+screencapture news.jpg
+
+#convert to text
+convert news.jpg -resize 400% -type Grayscale news.tif
+tesseract -l eng news.tif output
+
+# parse output
+#pass output into indico API
+curl -H 'X-ApiKey: b82653371f0095b43c8ee6a5c7248307' 'https://apiv2.indico.io/sentiment' --data '{"data": "output"}'
+
+
+#get html code
+wget http://www.google.com/search?hl=en&q=keyword | cat
+
+#search html code for article title minus search keyword
+
+backrack to href go to link in quotes
